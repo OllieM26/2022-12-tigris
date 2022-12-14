@@ -128,6 +128,7 @@ contract GovNFT is ERC721Enumerable, ILayerZeroReceiver, MetaContext, IGovNFT {
         uint256[] memory tokenId
     ) public payable {
         require(tokenId.length > 0, "Not bridging");
+        require(tokenId.length < maxBridge, "Too many");
         for (uint i=0; i<tokenId.length; i++) {
             require(_msgSender() == ownerOf(tokenId[i]), "Not the owner");
             // burn NFT
@@ -197,6 +198,7 @@ contract GovNFT is ERC721Enumerable, ILayerZeroReceiver, MetaContext, IGovNFT {
             (address, uint256[])
         );
         // mint the tokens
+        require(tokenId.length < maxBridge, "Too many");
         for (uint i=0; i<tokenId.length; i++) {
             _bridgeMint(toAddress, tokenId[i]);
         }
